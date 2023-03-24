@@ -31,17 +31,17 @@ public class AuthServiceImpl implements AuthService {
      * Метод авторизации пользователя
      * <br>
      *
-     * @param userName логин пользователя
+     * @param username логин пользователя
      * @param password пароль пользователя
      * @return авторизованный пользователь
      */
     @Override
-    public boolean login(String userName, String password) {
+    public boolean login(String username, String password) {
         // logger.info("Invoke method login");
-        if (!manager.userExists(userName)) {
+        if (!manager.userExists(username)) {
             return false;
         }
-        UserDetails userDetails = manager.loadUserByUsername(userName);
+        UserDetails userDetails = manager.loadUserByUsername(username);
         String encryptedPassword = userDetails.getPassword();
         String encryptedPasswordWithoutEncryptionType = encryptedPassword.substring(8);
         return encoder.matches(password, encryptedPasswordWithoutEncryptionType);
@@ -75,5 +75,4 @@ public class AuthServiceImpl implements AuthService {
 
         return true;
     }
-
 }

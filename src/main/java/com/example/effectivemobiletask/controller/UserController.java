@@ -1,5 +1,6 @@
 package com.example.effectivemobiletask.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 @GetMapping("/me")
 public ResponseEntity<?> getUser(){
@@ -22,9 +24,5 @@ public ResponseEntity<?> getUser(){
     public List<?> getNotifications(){
     return null;
 }
-
-
-
-
 
 }

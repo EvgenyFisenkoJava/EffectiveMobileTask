@@ -3,6 +3,7 @@ package com.example.effectivemobiletask.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,9 +22,13 @@ public class Company {
     private String name;
     @Column(name = "description")
     private  String description;
-    @OneToOne
-    @JoinColumn(name="logo_id")
-    private Image logo;
+    @Column(name = "active")
+    private boolean active;
     @OneToMany(mappedBy = "company")
     private List<Product> product;
+    @ManyToOne
+    private UserProfile userProfile;
+
+    @OneToOne
+    private Image image;
 }
