@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

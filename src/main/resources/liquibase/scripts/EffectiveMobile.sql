@@ -120,4 +120,10 @@ alter table discount add column  discount_period int4;
 alter table discount add column date date;
 alter table purchase_history add column date date;
 alter table purchase_history alter column date type timestamp;
+alter table purchase_history add column product_id int4;
+alter table purchase_history add column quantity int4;
+alter table purchase_history alter column price type float8;
+alter table product alter column price type float8;
+alter table product drop column description;
+
 

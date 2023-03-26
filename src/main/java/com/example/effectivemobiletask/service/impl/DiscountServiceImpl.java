@@ -34,11 +34,11 @@ public class DiscountServiceImpl implements DiscountService {
         assert product != null;
         Discount discount = discountRepository.findById(product.getDiscount().getId()).orElse(null);
         assert discount != null;
-        float oldPrice = product.getPrice() * 100 / (100 - discount.getValue());
+        double oldPrice = product.getPrice() * 100 / (100 - discount.getValue());
         product.setPrice(oldPrice);
         discount.setValue(discountDto.getValue());
         discount.setDiscountPeriod(discountDto.getDiscountPeriod());
-        float newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
+        double newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
         product.setPrice(newPrice);
         productRepository.save(product);
         return discountMapper.discountToDiscountDto(discountRepository.save(discount));
@@ -50,7 +50,7 @@ public class DiscountServiceImpl implements DiscountService {
         for (Discount discount : schedulerService.getDiscounts()) {
             if (discount.getDate().isBefore(LocalDate.now().minusDays(discount.getDiscountPeriod()))) {
                 Product product = productRepository.findProductByDiscount(discount);
-                float oldPrice = product.getPrice() * 100 / (100 - discount.getValue());
+                double oldPrice = product.getPrice() * 100 / (100 - discount.getValue());
                 product.setPrice(oldPrice);
                 product.setDiscount(null);
                 productRepository.save(product);
@@ -68,7 +68,7 @@ public class DiscountServiceImpl implements DiscountService {
         discount.setDate(LocalDate.now());
         discountRepository.save(discount);
         product.setDiscount(discount);
-        float newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
+        double newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
         product.setPrice(newPrice);
         return productMapper.productToProductDto(productRepository.save(product));
     }
@@ -81,7 +81,7 @@ public class DiscountServiceImpl implements DiscountService {
             discount.setDate(LocalDate.now());
             discountRepository.save(discount);
             product.setDiscount(discount);
-            float newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
+            double newPrice = product.getPrice() - (product.getPrice() / 100 * discountDto.getValue());
             product.setPrice(newPrice);
             productMapper.productToProductDto(productRepository.save(product));
         }

@@ -1,8 +1,6 @@
 package com.example.effectivemobiletask.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,10 +17,9 @@ public class Product {
     private int id;
     @Column(name = "title")
     private String title;
-    @Column(name = "description")
-    private String description;
+
     @Column(name = "price")
-    private float price;
+    private double price;
     @Column(name = "quantity")
     private int quantity;
     @Column(name = "keywords")
@@ -30,7 +27,7 @@ public class Product {
     @Column(name = "active")
     private boolean active;
     @OneToMany(mappedBy = "product")
-    private List<ProductFeature> features;
+    private List<ProductFeature> description;
     @OneToMany(mappedBy = "product")
     private List<Rating> ratings;
     @ManyToOne
@@ -39,4 +36,5 @@ public class Product {
     private Company company;
     @OneToMany(mappedBy = "product")
     private List<Feedback> feedbacks;
+
 }

@@ -1,6 +1,8 @@
 package com.example.effectivemobiletask.service;
 
 import com.example.effectivemobiletask.dto.ProductDto;
+import com.example.effectivemobiletask.dto.ProductFeatureDto;
+import com.example.effectivemobiletask.model.ProductFeature;
 import org.springframework.security.core.Authentication;
 
 public interface ProductService {
@@ -11,6 +13,5 @@ public interface ProductService {
     void setStatus(int productId, Authentication authentication);
 
     ProductDto getProduct(int productId);
-    ProductDto buyProduct(int productId,int wantedQuantity, Authentication authentication);
-
+    ProductFeatureDto addFeature(int productId, ProductFeatureDto productFeatureDto, Authentication authentication);
 }

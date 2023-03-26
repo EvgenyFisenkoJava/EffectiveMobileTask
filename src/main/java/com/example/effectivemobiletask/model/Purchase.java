@@ -19,7 +19,7 @@ public class Purchase {
     @Column(name = "id")
     private int id;
     @Column(name = "price")
-    private float price;
+    private double price;
     @Column(name = "product")
     private String product;
     @Column(name = "product_description")
@@ -30,6 +30,10 @@ public class Purchase {
     private LocalDateTime localDateTime;
     @Column(name = "company_description")
     private String companyDescription;
+    @Column(name = "product_id")
+    private int productId;
+    @Column(name = "quantity")
+    private int quantity;
     @OneToOne
     private UserProfile userProfile;
 }

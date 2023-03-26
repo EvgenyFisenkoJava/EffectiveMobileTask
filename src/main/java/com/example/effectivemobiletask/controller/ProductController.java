@@ -1,6 +1,8 @@
 package com.example.effectivemobiletask.controller;
 
 import com.example.effectivemobiletask.dto.ProductDto;
+import com.example.effectivemobiletask.dto.ProductFeatureDto;
+import com.example.effectivemobiletask.model.ProductFeature;
 import com.example.effectivemobiletask.service.AuthService;
 import com.example.effectivemobiletask.service.CompanyService;
 import com.example.effectivemobiletask.service.ProductService;
@@ -18,6 +20,7 @@ public class ProductController {
     private final CompanyService companyService;
     private final AuthService authService;
 
+
     @PostMapping("/{id}/products")
     public ResponseEntity<ProductDto> addProduct(@PathVariable int id,
                                                  @RequestBody ProductDto productDto,
@@ -26,33 +29,31 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{id}/products/{productId}")
-    public ResponseEntity<ProductDto> getCompany(@PathVariable int id,
-                                                 @PathVariable int productId) {
-        return ResponseEntity.ok(productService.getProduct(id));
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable int productId) {
+        return ResponseEntity.ok(productService.getProduct(productId));
     }
 
-    @DeleteMapping(value = "/{companyId}/product/{productId}")
-    public ResponseEntity<ProductDto> removeProduct(@PathVariable int companyId,
-                                                    @PathVariable int productId,
+    @DeleteMapping(value = "/me/product/{productId}")
+    public ResponseEntity<ProductDto> removeProduct(@PathVariable int productId,
                                                     Authentication authentication) {
         productService.removeProduct(productId, authentication);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PatchMapping(value = "/{id}/product/{productId}")
-    public ResponseEntity<String> setStatus(@PathVariable int id,
-                                            @PathVariable int productId,
+    @PatchMapping(value = "/me/{productId}")
+    public ResponseEntity<String> setStatus(@PathVariable int productId,
                                             Authentication authentication) {
-        productService.setStatus(id, authentication);
+        productService.setStatus(productId, authentication);
         return ResponseEntity.ok("Status has been changed");
     }
-    @PatchMapping(value = "/{companyId}/product/{productId}/{qty}")
-    public ResponseEntity<String> setStatus(@PathVariable int companyId,
-                                            @PathVariable int productId,
-                                            @PathVariable int qty,
-                                            Authentication authentication) {
-        productService.buyProduct(productId, qty, authentication);
-        return ResponseEntity.ok("Status has been changed");
+    @PostMapping(value = "/me/{productId}/feature")
+    public ResponseEntity<ProductFeatureDto> addFeature(@PathVariable int productId,
+                                                     @RequestBody ProductFeatureDto productFeatureDto,
+                                                     Authentication authentication) {
+        productService.addFeature(productId, productFeatureDto, authentication );
+
+        return ResponseEntity.ok().build();
     }
+
 }

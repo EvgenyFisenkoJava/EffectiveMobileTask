@@ -1,20 +1,20 @@
 package com.example.effectivemobiletask.service.impl;
 
 import com.example.effectivemobiletask.dto.ProductDto;
-import com.example.effectivemobiletask.dto.mapper.DiscountMapper;
+import com.example.effectivemobiletask.dto.ProductFeatureDto;
+import com.example.effectivemobiletask.dto.mapper.ProductFeatureMapper;
 import com.example.effectivemobiletask.dto.mapper.ProductMapper;
 import com.example.effectivemobiletask.model.Company;
 import com.example.effectivemobiletask.model.Product;
-import com.example.effectivemobiletask.model.Purchase;
+import com.example.effectivemobiletask.model.ProductFeature;
 import com.example.effectivemobiletask.repository.*;
-import com.example.effectivemobiletask.service.DiscountService;
 import com.example.effectivemobiletask.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +24,8 @@ public class ProductServiceImpl implements ProductService {
     private final CompanyRepository companyRepository;
     private final HistoryRepository historyRepository;
     private final UserRepository userRepository;
-
-
+    private final ProductFeatureRepository productFeatureRepository;
+    private final ProductFeatureMapper productFeatureMapper;
 
 
     @Override
@@ -57,33 +57,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(int productId) {
-        return productMapper.productToProductDto(productRepository
-                .findById(productId).orElse(null));
+        List<ProductFeature> productFeatureList = productFeatureRepository.findAllByProductId(productId);
+        Product product = productRepository.findById(productId).orElse(null);
+
+        return productMapper.productToProductDto(product);
     }
 
     @Override
-    public ProductDto buyProduct(int productId, int wantedQuantity, Authentication authentication) {
-        ProductDto productDto = productMapper.productToProductDto(productRepository
-                .findById(productId).orElse(null));
-Product product = Objects.requireNonNull(productRepository.findById(productId).orElse(null));
-
-int quantity = product.getQuantity();
-        if(quantity >= wantedQuantity) {
-            quantity = quantity - wantedQuantity;
-            product.setQuantity(quantity);
-            Purchase purchase = new Purchase();
-            purchase.setCompany(product.getCompany().getName());
-            purchase.setProduct(product.getTitle());
-            purchase.setProductDescription(product.getDescription());
-            purchase.setPrice(product.getPrice());
-            purchase.setCompanyDescription(product.getCompany().getDescription());
-            purchase.setUserProfile(userRepository.findByUsername(authentication.getName()));
-            purchase.setLocalDateTime(LocalDateTime.now());
-            historyRepository.save(purchase);
-            productRepository.save(product);
-        }
-        else throw new RuntimeException("No such quantity");
-        return productDto;
+    public ProductFeatureDto addFeature(int productId,ProductFeatureDto productFeatureDto, Authentication authentication) {
+        ProductFeature productFeature = new ProductFeature();
+        Product product = productRepository.findById(productId).orElse(null);
+        productFeature.setProduct(product);
+        productFeature.setTitle(productFeatureDto.getTitle());
+        productFeatureRepository.save(productFeature);
+        return productFeatureMapper.productFeatureToProductFeatureDto(productFeature);
     }
 
 }
