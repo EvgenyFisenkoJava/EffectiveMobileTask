@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -20,8 +20,10 @@ public class Discount {
     private int id;
     @Column(name = "value")
     private short value;
-    @Column(name = "time")
-    private LocalTime time;
+    @Column(name = "date")
+    private LocalDate date;
+    @Column(name = "discount_period")
+    private int discountPeriod;
     @OneToMany(mappedBy = "discount")
     private List<Product> products;
 };

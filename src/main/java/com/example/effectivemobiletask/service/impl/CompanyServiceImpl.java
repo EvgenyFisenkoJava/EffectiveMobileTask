@@ -3,17 +3,15 @@ package com.example.effectivemobiletask.service.impl;
 import com.example.effectivemobiletask.dto.CompanyDto;
 import com.example.effectivemobiletask.dto.mapper.CompanyMapper;
 import com.example.effectivemobiletask.model.Company;
-import com.example.effectivemobiletask.model.Image;
 import com.example.effectivemobiletask.model.UserProfile;
 import com.example.effectivemobiletask.repository.CompanyRepository;
 import com.example.effectivemobiletask.repository.ImageRepository;
+import com.example.effectivemobiletask.repository.ProductRepository;
 import com.example.effectivemobiletask.repository.UserRepository;
 import com.example.effectivemobiletask.service.CompanyService;
-import com.example.effectivemobiletask.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -23,8 +21,9 @@ import java.util.Objects;
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
-    private final CompanyMapper companyMapper;
+    private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
+    private final CompanyMapper companyMapper;
     private final UserRepository userRepository;
 
     @Override
@@ -44,11 +43,25 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void removeCompany(Authentication authentication, int companyId) {
+        // imageRepository.delete(imageRepository.findByCompanyId(companyId));
+        //productRepository.delete(productRepository.deleteByCompanyId(companyId));
+        companyRepository.deleteById(companyId);
     }
 
     @Override
-    public CompanyDto stopCompany(Authentication authentication, int companyId) {
-        return null;
+    public String setStatus(Authentication authentication, int companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        assert company != null;
+        boolean status = company.isActive();
+        String message;
+        if (status) {
+            company.setActive(false);
+            message = "company" + company + "has been blocked";
+        } else {
+            company.setActive(true);
+            message = "company" + company + "has been approved";
+        }
+        companyRepository.save(company);
+        return message;
     }
-
 }

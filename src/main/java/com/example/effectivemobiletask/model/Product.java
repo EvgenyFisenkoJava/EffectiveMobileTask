@@ -27,6 +27,8 @@ public class Product {
     private int quantity;
     @Column(name = "keywords")
     private String keywords;
+    @Column(name = "active")
+    private boolean active;
     @OneToMany(mappedBy = "product")
     private List<ProductFeature> features;
     @OneToMany(mappedBy = "product")

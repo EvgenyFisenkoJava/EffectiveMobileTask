@@ -1,6 +1,5 @@
 package com.example.effectivemobiletask.service.impl;
 
-import com.example.effectivemobiletask.dto.CompanyDto;
 import com.example.effectivemobiletask.dto.mapper.CompanyMapper;
 import com.example.effectivemobiletask.model.Company;
 import com.example.effectivemobiletask.model.Image;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
@@ -36,12 +36,12 @@ public class ImageServiceImpl implements ImageService {
         image.setData(imageFile.getBytes());
         image.setCompany(company);
         imageRepository.save(image);
-        CompanyDto companyDto = companyMapper.companyToCompanyDto(company);
-companyDto.setImage(image.getFilePath());
+        company.setImage(image);
+        companyRepository.save(company);
     }
+
     @Override
     public byte[] getImage(int companyId) {
-
         Image image = imageRepository.findByCompanyId(companyId);
         return image.getData();
     }

@@ -10,6 +10,7 @@ public interface CompanyMapper {
 
     @Mapping(source = "image.filePath", target = "image")
     CompanyDto companyToCompanyDto(Company company);
+
     @Mapping(target = "image", ignore = true)
     Company companyDtoToCompany(CompanyDto companyDto);
 

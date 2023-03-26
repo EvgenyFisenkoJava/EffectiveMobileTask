@@ -24,11 +24,12 @@ public class Company {
     private  String description;
     @Column(name = "active")
     private boolean active;
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> product;
     @ManyToOne
     private UserProfile userProfile;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id")
     private Image image;
 }

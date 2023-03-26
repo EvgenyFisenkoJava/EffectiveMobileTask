@@ -1,6 +1,5 @@
 package com.example.effectivemobiletask.service;
 
-import com.example.effectivemobiletask.model.Image;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
