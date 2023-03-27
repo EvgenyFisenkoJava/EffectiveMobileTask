@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Mapper
 public interface ProductMapper {
-
+@Mapping(source = "averageRating", target = "averageRating")
     ProductDto productToProductDto(Product product);
 
     Product productDtoToProduct(ProductDto productDto);

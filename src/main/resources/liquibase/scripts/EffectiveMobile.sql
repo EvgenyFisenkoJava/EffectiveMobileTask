@@ -48,7 +48,8 @@ create table product
     active boolean,
     description varchar(255),
     keywords varchar(255),
-    price float4, quantity int4,
+    price float4,
+    quantity int4,
     title varchar(255),
     company_id int4,
     discount_id int4,
@@ -125,5 +126,8 @@ alter table purchase_history add column quantity int4;
 alter table purchase_history alter column price type float8;
 alter table product alter column price type float8;
 alter table product drop column description;
-
+alter table  feedback add column rating int4;
+drop table rating cascade ;
+alter table product add column average_rating float8;
+alter table product alter column average_rating type text;
 

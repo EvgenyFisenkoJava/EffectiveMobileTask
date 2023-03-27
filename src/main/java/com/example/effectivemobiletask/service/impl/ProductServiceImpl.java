@@ -5,6 +5,7 @@ import com.example.effectivemobiletask.dto.ProductFeatureDto;
 import com.example.effectivemobiletask.dto.mapper.ProductFeatureMapper;
 import com.example.effectivemobiletask.dto.mapper.ProductMapper;
 import com.example.effectivemobiletask.model.Company;
+import com.example.effectivemobiletask.model.Feedback;
 import com.example.effectivemobiletask.model.Product;
 import com.example.effectivemobiletask.model.ProductFeature;
 import com.example.effectivemobiletask.repository.*;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final CompanyRepository companyRepository;
-    private final HistoryRepository historyRepository;
+    private final FeedBackRepository feedBackRepository;
     private final UserRepository userRepository;
     private final ProductFeatureRepository productFeatureRepository;
     private final ProductFeatureMapper productFeatureMapper;
@@ -57,14 +59,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProduct(int productId) {
-        List<ProductFeature> productFeatureList = productFeatureRepository.findAllByProductId(productId);
-        Product product = productRepository.findById(productId).orElse(null);
-
-        return productMapper.productToProductDto(product);
+        return productMapper.productToProductDto(
+                productRepository.findById(productId).orElse(null));
     }
 
     @Override
-    public ProductFeatureDto addFeature(int productId,ProductFeatureDto productFeatureDto, Authentication authentication) {
+    public ProductFeatureDto addFeature(int productId, ProductFeatureDto productFeatureDto, Authentication authentication) {
         ProductFeature productFeature = new ProductFeature();
         Product product = productRepository.findById(productId).orElse(null);
         productFeature.setProduct(product);

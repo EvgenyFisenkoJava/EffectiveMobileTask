@@ -26,10 +26,10 @@ public class Product {
     private String keywords;
     @Column(name = "active")
     private boolean active;
+    @Column(name = "average_rating")
+    private String averageRating;
     @OneToMany(mappedBy = "product")
     private List<ProductFeature> description;
-    @OneToMany(mappedBy = "product")
-    private List<Rating> ratings;
     @ManyToOne
     private Discount discount;
     @ManyToOne

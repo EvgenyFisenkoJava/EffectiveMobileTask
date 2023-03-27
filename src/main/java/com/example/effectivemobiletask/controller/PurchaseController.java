@@ -1,5 +1,6 @@
 package com.example.effectivemobiletask.controller;
 
+import com.example.effectivemobiletask.dto.FeedbackDto;
 import com.example.effectivemobiletask.dto.PurchaseDto;
 import com.example.effectivemobiletask.service.AuthService;
 import com.example.effectivemobiletask.service.ProductService;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,9 +21,8 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
     private final AuthService authService;
 
-    @PatchMapping(value = "/{companyId}/product/{productId}/{qty}")
-    public ResponseEntity<String> buyProduct(@PathVariable int companyId,
-                                             @PathVariable int productId,
+    @PatchMapping(value = "/{productId}/{qty}")
+    public ResponseEntity<String> buyProduct(@PathVariable int productId,
                                              @PathVariable int qty,
                                              Authentication authentication) {
         purchaseService.buyProduct(productId, qty, authentication);
@@ -47,4 +48,18 @@ public class PurchaseController {
 
         return ResponseEntity.ok(purchaseService.getAnyHistory(userId, authentication));
     }
+    @PostMapping(value = "/feedback/{productId}")
+    public ResponseEntity<FeedbackDto> addFeedback(@PathVariable int productId,
+                                                   @RequestBody FeedbackDto feedbackDto,
+                                                   Authentication authentication){
+        purchaseService.addFeedback(productId, feedbackDto, authentication);
+        return ResponseEntity.ok(feedbackDto);
+    }
+    @GetMapping(value = "/{productId}/feedbacks")
+    public ResponseEntity<List<FeedbackDto>> getFeedbacks(
+            @PathVariable int productId){
+       return ResponseEntity.ok(purchaseService.getFeedbacks(productId));
+
+    }
+
 }

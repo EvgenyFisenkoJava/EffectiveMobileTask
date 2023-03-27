@@ -14,6 +14,7 @@ public class ProductDto {
     private String title;
     private List<ProductFeatureDto> description;
     private float price;
+    private String averageRating;
     private int quantity;
     private String keywords;
 
