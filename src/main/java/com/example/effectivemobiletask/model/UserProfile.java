@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +27,14 @@ public class UserProfile {
     private String password;
     @Column(name = "balance")
     private double balance;
+    @Column(name = "status")
+    private boolean active;
+    @OneToMany(mappedBy = "userProfile",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Company> companies;
+    @OneToMany(mappedBy = "userProfile",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Notification> notifications;
+    @OneToMany(mappedBy = "userProfile",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Purchase> purchase;
+
 
 }

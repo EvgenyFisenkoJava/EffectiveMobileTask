@@ -12,7 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+/**
 
+ * Implementation of AuthService interface for user authentication and registration.
+ */
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -28,12 +31,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * Метод авторизации пользователя
-     * <br>
-     *
-     * @param username логин пользователя
-     * @param password пароль пользователя
-     * @return авторизованный пользователь
+
+     Authenticates a user based on the provided username and password.
+     @param username the username to authenticate.
+     @param password the password to authenticate.
+     @return true if the authentication was successful, false otherwise.
      */
     @Override
     public boolean login(String username, String password) {
@@ -47,14 +49,13 @@ public class AuthServiceImpl implements AuthService {
         return encoder.matches(password, encryptedPasswordWithoutEncryptionType);
     }
 
+
     /**
-     * Метод регистрации пользователя
-     * <br>
-     * Используется метод репозитория {@link org.springframework.data.jpa.repository.JpaRepository#save(Object)}
-     *
-     * @param registerReq логин пользователя
-     * @param role        роль пользователя
-     * @return зарегистрированный пользователь
+
+     * Registers a new user with the provided registration information and assigns the given role to them.
+     * @param registerReq The registration information of the new user
+     * @param role The role to be assigned to the new user
+     *@return true if the user is successfully registered, false otherwise
      */
     @Override
     public boolean register(RegisterReq registerReq, Role role) {
@@ -71,6 +72,7 @@ public class AuthServiceImpl implements AuthService {
         );
         UserProfile user = UserMapper.INSTANCE.registerReqToUser(registerReq);
         user.setEmail(registerReq.getEmail());
+        user.setActive(true);
         userRepository.save(user);
 
         return true;

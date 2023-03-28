@@ -2,7 +2,6 @@ package com.example.effectivemobiletask;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,36 +10,35 @@ import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-    @Configuration
-    public class WebSecurityConfig {
-        private static final String[] AUTH_WHITELIST = {
-                "/swagger-resources/**",
-                "/swagger-ui.html",
-                "/v3/api-docs",
-                "/webjars/**",
-                "/login", "/register"
-        };
+@Configuration
+public class WebSecurityConfig {
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v3/api-docs",
+            "/webjars/**",
+            "/login", "/register"
+    };
 
 
-        @Bean
+    @Bean
 
-        public JdbcUserDetailsManager userDetailsService(DataSource dataSource) {
-            return new JdbcUserDetailsManager(dataSource);
-        }
+    public JdbcUserDetailsManager userDetailsService(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http
-                    .csrf().disable()
-                    .authorizeHttpRequests((authz) ->
-                            authz
-                                    .mvcMatchers(AUTH_WHITELIST).permitAll()
-                                    .antMatchers(HttpMethod.GET, "/product", "/company/*/image", "/image/**").permitAll()
-                                    .antMatchers("/product/**", "/users/**", "/company/**", "/discount/**").authenticated()
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests((authz) ->
+                        authz
+                                .mvcMatchers(AUTH_WHITELIST).permitAll()
+                                .antMatchers("/purchase/**", "/users/**", "/company/**", "/discount/**").authenticated()
 
-                    )
-                    .cors().and()
-                    .httpBasic(withDefaults());
-            return http.build();
-        }
+                )
+                .cors().and()
+                .httpBasic(withDefaults());
+        return http.build();
+    }
 }

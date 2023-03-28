@@ -12,6 +12,7 @@ public interface CompanyMapper {
     CompanyDto companyToCompanyDto(Company company);
 
     @Mapping(target = "image", ignore = true)
+
     Company companyDtoToCompany(CompanyDto companyDto);
 
 }

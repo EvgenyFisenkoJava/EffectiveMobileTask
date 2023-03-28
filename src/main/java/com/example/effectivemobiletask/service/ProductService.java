@@ -1,17 +1,21 @@
 package com.example.effectivemobiletask.service;
 
+import com.example.effectivemobiletask.dto.CreateProductDto;
 import com.example.effectivemobiletask.dto.ProductDto;
 import com.example.effectivemobiletask.dto.ProductFeatureDto;
-import com.example.effectivemobiletask.model.ProductFeature;
+import com.example.effectivemobiletask.exceptions.NotAuthorizedException;
 import org.springframework.security.core.Authentication;
 
 public interface ProductService {
-    ProductDto addProduct(ProductDto productDto, Authentication authentication, int companyId);
+    CreateProductDto addProduct(CreateProductDto createProductDto, Authentication authentication, int companyId) throws NotAuthorizedException;
 
-    void removeProduct(int productId, Authentication authentication);
+    void removeProduct(int productId, Authentication authentication) throws NotAuthorizedException;
 
-    void setStatus(int productId, Authentication authentication);
+    void setStatus(int productId, Authentication authentication) throws NotAuthorizedException;
 
     ProductDto getProduct(int productId);
-    ProductFeatureDto addFeature(int productId, ProductFeatureDto productFeatureDto, Authentication authentication);
+
+    CreateProductDto updateProduct(int productId, CreateProductDto createProductDto, Authentication authentication) throws NotAuthorizedException;
+
+    ProductFeatureDto addFeature(int productId, ProductFeatureDto productFeatureDto, Authentication authentication) throws NotAuthorizedException;
 }
