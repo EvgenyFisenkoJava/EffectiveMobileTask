@@ -130,4 +130,5 @@ alter table  feedback add column rating int4;
 drop table rating cascade ;
 alter table product add column average_rating float8;
 alter table product alter column average_rating type text;
+alter table user_profile add column status boolean;
 

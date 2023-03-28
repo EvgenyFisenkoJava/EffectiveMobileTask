@@ -10,4 +10,5 @@ public class UserDto {
     private String username;
     private String email;
     private double balance;
+    private boolean active;
 }

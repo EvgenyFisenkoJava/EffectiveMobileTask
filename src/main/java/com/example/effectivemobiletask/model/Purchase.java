@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -34,6 +33,6 @@ public class Purchase {
     private int productId;
     @Column(name = "quantity")
     private int quantity;
-    @OneToOne
+    @ManyToOne
     private UserProfile userProfile;
 }
