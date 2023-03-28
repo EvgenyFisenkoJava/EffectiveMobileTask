@@ -18,6 +18,8 @@ public class Feedback {
     private int id;
     @Column(name = "text")
     private String text;
+    @Column(name = "rating")
+    private int rating;
     @ManyToOne
     private  UserProfile userProfile;
     @ManyToOne

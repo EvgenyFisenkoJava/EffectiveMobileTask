@@ -36,7 +36,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
                             authz
                                     .mvcMatchers(AUTH_WHITELIST).permitAll()
                                     .antMatchers(HttpMethod.GET, "/product", "/company/*/image", "/image/**").permitAll()
-                                    .antMatchers("/product/**", "/users/**", "/company/**").authenticated()
+                                    .antMatchers("/product/**", "/users/**", "/company/**", "/discount/**").authenticated()
 
                     )
                     .cors().and()
